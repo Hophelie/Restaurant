@@ -49,20 +49,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $prenom;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Restaurant::class, inversedBy="users")
-     * @ORM\JoinColumn(nullable=True)
-     */
-    private $restaurant;
 
     /**
      * @ORM\OneToMany(targetEntity=Commande::class, mappedBy="userCommande", orphanRemoval=true)
      */
     private $commandes;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Restaurant::class, inversedBy="users")
+     */
+    private $restaurant;
+
     public function __construct()
     {
         $this->commandes = new ArrayCollection();
+        $this->restaurant = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -177,17 +178,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getRestaurant(): ?Restaurant
-    {
-        return $this->restaurant;
-    }
-
-    public function setRestaurant(?Restaurant $restaurant): self
-    {
-        $this->restaurant = $restaurant;
-
-        return $this;
-    }
 
     /**
      * @return Collection|Commande[]
@@ -215,6 +205,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $commande->setUserCommande(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Restaurant[]
+     */
+    public function getRestaurant(): Collection
+    {
+        return $this->restaurant;
+    }
+
+    public function addRestaurant(Restaurant $restaurant): self
+    {
+        if (!$this->restaurant->contains($restaurant)) {
+            $this->restaurant[] = $restaurant;
+        }
+
+        return $this;
+    }
+
+    public function removeRestaurant(Restaurant $restaurant): self
+    {
+        $this->restaurant->removeElement($restaurant);
 
         return $this;
     }

@@ -3,13 +3,18 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
-    <h1>Register</h1>
+<div class="container mt-5"> 
+ <h1>Register</h1>
+    <div class="row"> 
+        <div class="d-flex justify-content-center align-items-center">
 
     {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
+        {{ form_row(registrationForm.email,{'attr': {'class': 'form-control'}} )}}
+
         {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
+            label: 'Password',
+        'attr': {'class': 'form-control'}}
+        ) }}
         {{ form_row(registrationForm.agreeTerms) }}
         
     <div>
@@ -17,6 +22,9 @@
         <input type="checkbox" id="roles" name="roles">
     </div>
 
-        <button type="submit" class="btn">Register</button>
+        <button type="submit" class="btn">S'inscrire</button>
     {{ form_end(registrationForm) }}
+    </div>
+     </div>
+</div>
 {% endblock %}

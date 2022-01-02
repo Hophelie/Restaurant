@@ -31,10 +31,18 @@
                 <th>Prenom</th>
                 <td>{{ user.prenom }}</td>
             </tr>
+       
+            <tr>
+            {% for restaurant in user.restaurant %}
+                <th>restaurant</th>
+                <td>{{restaurant.nom}} <a href="{{ path('restaurant_show', {'id': restaurant.id}) }}">voir mon restaurant</a> | <a href="{{ path('restaurant_edit', {'id': restaurant.id}) }}">edit</a></td>
+            </tr>
+            {% endfor %}
         </tbody>
     </table>
 
     <a href="{{ path('user_index') }}">back to list</a>
+      <a href="{{ path('restaurant_new') }}">Ajouter un restaurant</a>
 
     <a href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
 

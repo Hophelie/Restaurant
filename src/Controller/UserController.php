@@ -53,8 +53,10 @@ class UserController extends AbstractController
      */
     public function show(User $user): Response
     {
+       
         return $this->render('user/show.html.twig', [
-            'user' => $user,
+            'user' => $user
+            
         ]);
     }
 
@@ -62,14 +64,19 @@ class UserController extends AbstractController
      * @Route("/{id}/edit", name="user_edit", methods={"GET", "POST"})
      */
     public function edit(Request $request, User $user, EntityManagerInterface $entityManager): Response
-    {
+    {   
+        $userId = $user->getId();
+      
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('user_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('user_show', array(
+                'id' => $user->getId()
+            )
+        );
         }
 
         return $this->renderForm('user/edit.html.twig', [

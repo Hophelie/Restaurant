@@ -25,11 +25,11 @@ class RegistrationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             // si il y a la case restaurateur de cochée
+        $user->setRoles(['ROLE_USER']);
             if(count($_POST )> 1){
-                $user->setRoles(['ROLE_RESTAURATEUR']);
-            }else{
-                $user->setRoles(['ROLE_USER']);
-            }
+                $user->setRoles(['ROLE_RESTAURATEUR', 'ROLE_USER']);
+            } 
+            
             // encode the plain password
             $user->setPassword(
             $userPasswordHasher->hashPassword(

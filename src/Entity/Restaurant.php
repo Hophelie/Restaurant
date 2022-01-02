@@ -45,10 +45,11 @@ class Restaurant
     private $commandeList;
 
     /**
-     * @ORM\OneToMany(targetEntity=User::class, mappedBy="restaurant", orphanRemoval=true)
+     * @ORM\ManyToMany(targetEntity=User::class, mappedBy="restaurant")
      */
     private $users;
 
+ 
     public function __construct()
     {
         $this->produitsListe = new ArrayCollection();
@@ -169,7 +170,7 @@ class Restaurant
     {
         if (!$this->users->contains($user)) {
             $this->users[] = $user;
-            $user->setRestaurant($this);
+            $user->addRestaurant($this);
         }
 
         return $this;
@@ -178,12 +179,11 @@ class Restaurant
     public function removeUser(User $user): self
     {
         if ($this->users->removeElement($user)) {
-            // set the owning side to null (unless already changed)
-            if ($user->getRestaurant() === $this) {
-                $user->setRestaurant(null);
-            }
+            $user->removeRestaurant($this);
         }
 
         return $this;
     }
+
+  
 }
