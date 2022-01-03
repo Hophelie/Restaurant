@@ -42,9 +42,10 @@ class RestaurantController extends AbstractController
             $entityManager->persist($restaurant);
             $entityManager->flush();
 
-            return $this->redirectToRoute('user_show', array(
-                'id' => $user->getId()
-            ));
+            return $this->redirectToRoute('user_show',[
+                 'id' => $user->getId()
+            
+            ]);
         }
 
         return $this->renderForm('restaurant/new.html.twig', [
