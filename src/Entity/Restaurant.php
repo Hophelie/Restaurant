@@ -49,7 +49,10 @@ class Restaurant
      */
     private $users;
 
- 
+    public function __toString() {
+        return $this->nom;
+    }
+
     public function __construct()
     {
         $this->produitsListe = new ArrayCollection();

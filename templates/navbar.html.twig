@@ -1,34 +1,25 @@
-	<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+	<nav class="sticky-top navbar navbar-expand-md navbar-dark bg-dark pb-5" style="border-radius: 100% 0% 45% 55% / 0% 0% 100% 100%  ">
 	<div class="container">
 		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTop" aria-controls="navbarTop" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
 		<div class="collapse navbar-collapse" id="navbarTop">
-			<a class="navbar-brand d-flex justify-content-center" href=> 
-    <span class="ms-3" style="color: #f4f8ff; font-size:2rem">JSP</span> 
+			<a class="navbar-brand d-flex justify-content-center" href="{{ path('acceuil')}}"> 
+    		<span class="ms-3 fw-bold" style="color: #fffff; font-size:2rem">PSPSPS</span><span style="color: #CE2D4F; font-size:2rem">CHONKY</span> 
 			</a>
 
 			<div class="input-group mx-auto w-50 d-md-flex">
 				<input type="search" id="searchbar" class="form-control rounded-pill" placeholder="Rechercher un produit" aria-label="Search" aria-describedby="search-addon"/>
 			</div>
-
+			
 			<ul class="navbar-nav ms-md-auto justify-content-center flex-row">
 				{% if app.user %}
 
-					<li class="nav-item me-3">
-						<a class="nav-link" aria-current="page" href=>
-							<i class="fas fa-2x fa-envelope"></i>
-						</a>
-					</li>
-					<li class="nav-item me-3">
-						<a class="nav-link" aria-current="page" href=>
-							<i class="fas fa-2x fa-plus"></i>
-						</a>
-					</li>
-
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-							<i class="far fa-2x fa-user-circle"></i>
+							
+							<i class="text-light far fa-2x fa-user-circle" style=""></i>
+						
 						</a>
 
 						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">

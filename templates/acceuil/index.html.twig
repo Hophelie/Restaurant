@@ -3,38 +3,32 @@
 {% block title %}Hello !{% endblock %}
 {% block body %}
 
-    <h1>Restaurant index</h1>
+    <div class="container-fluid fondVendeur">
+	</div>
+	<div class="container-fluid carte">
+		<div class="row">
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nom</th>
-                <th>Adresse</th>
-                <th>Tel</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for restaurant in restaurants %}
-            <tr>
-                <td>{{ restaurant.id }}</td>
-                <td>{{ restaurant.nom }}</td>
-                <td>{{ restaurant.adresse }}</td>
-                <td>{{ restaurant.tel }}</td>
-                <td>
-                    <a href="{{ path('restaurant_show', {'id': restaurant.id}) }}">Voir le restaurant</a>
-                  
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-   
+			{% for restaurant in restaurants %}
+				<div class="col-xl-4 col-lg-4 col-12 col-md-6 mb-5">
+					<img src="" alt="vendeur" class="card-img-top imgVendeur">
+					<div class="card cartesVendeurs">
+					
+						<div class="card-body">
+							
+							<h5 class="card-title">{{restaurant.nom}}</h5>
+							<p class="card-text">{{restaurant.adresse}}</p>
+							<a class="dedcription-btn" href="{{ path('restaurant_show', {'id' : restaurant.id})}}">
+							<span class="name-descripeion"><i class="far fa-eye"></i></span>
+						  </a>
+						</div> 
+					</div>
+				</div>
+				
+
+			{% endfor %}
+		</div>
+	</div>
 
 
 {% endblock %}
+

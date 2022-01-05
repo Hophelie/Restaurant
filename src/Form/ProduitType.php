@@ -15,7 +15,7 @@ class ProduitType extends AbstractType
             ->add('nom')
             ->add('prix')
             ->add('description')
-            ->add('restaurant')
+            
         ;
     }
 

@@ -8,10 +8,8 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
+     
                 <th>Email</th>
-                <th>Roles</th>
-                <th>Password</th>
                 <th>Nom</th>
                 <th>Prenom</th>
                 <th>actions</th>
@@ -20,15 +18,13 @@
         <tbody>
         {% for user in users %}
             <tr>
-                <td>{{ user.id }}</td>
-                <td>{{ user.email }}</td>
-                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-                <td>{{ user.password }}</td>
+          
+                <td>{{ user.email }}</td>   
                 <td>{{ user.nom }}</td>
                 <td>{{ user.prenom }}</td>
                 <td>
                   
-                    <a href="{{ path('user_edit', {'id': app.user.id}) }}">edit</a>
+                    <a href="{{ path('user_edit', {'id': app.user.id}) }}"><i class="fas fa-pen"></i></a>
                 </td>
             </tr>
         {% else %}

@@ -1,27 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}User{% endblock %}
+{% block title %}Mon profil{% endblock %}
 
 {% block body %}
-    <h1>User</h1>
+ <div class="container">
+    <h1>Mon profil</h1>
 
     <table class="table">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ user.id }}</td>
-            </tr>
-            <tr>
                 <th>Email</th>
                 <td>{{ user.email }}</td>
-            </tr>
-            <tr>
-                <th>Roles</th>
-                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-            </tr>
-            <tr>
-                <th>Password</th>
-                <td>{{ user.password }}</td>
             </tr>
             <tr>
                 <th>Nom</th>
@@ -31,20 +20,30 @@
                 <th>Prenom</th>
                 <td>{{ user.prenom }}</td>
             </tr>
-       
-            <tr>
-            {% for restaurant in user.restaurant %}
-                <th>restaurant</th>
-                <td>{{restaurant.nom}} <a href="{{ path('restaurant_show', {'id': restaurant.id}) }}">voir mon restaurant</a> | <a href="{{ path('restaurant_edit', {'id': restaurant.id}) }}">edit</a></td>
-            </tr>
-            {% endfor %}
         </tbody>
-    </table>
-
-
-      <a href="{{ path('restaurant_new') }}">Ajouter un restaurant</a>
-
-    <a href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
-
-    {{ include('user/_delete_form.html.twig') }}
+    </table>  
+    <a type="button" class="btn primary" href="{{ path('user_edit', {'id': user.id}) }}"><i class="fas fa-pen"></i></a> {{ include('user/_delete_form.html.twig') }}
+    {% if app.user.roles == ['ROLE_RESTAURATEUR','ROLE_USER']%}
+        <h1>Mes restaurants</h1>
+        {% if app.user.roles == ['ROLE_RESTAURATEUR','ROLE_USER']%}
+        <a  type="button" class="btn primary" href="{{ path('restaurant_new') }}"><i class="fas fa-plus"></i></a>
+        {% endif %}
+        <div class="row">
+        {% for restaurant in user.restaurant %}
+            <div class="card m-3" style="width: 20rem;">
+                <img src="..." class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title"> {{restaurant.nom}} </h5>
+                    <p class="card-text">{{restaurant.adresse}}</p>  
+                        <a  type="button" class="btn primary" href="{{ path('restaurant_show', {'id': restaurant.id}) }}"><i class="far fa-eye"></i></a> | <a  type="button" class="btn primary" href="{{ path('restaurant_edit', {'id': restaurant.id}) }}"><i class="fas fa-pen"></i></a>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    {% endif %} 
+     
+   
+ 
+   
+</div>
 {% endblock %}

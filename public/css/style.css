@@ -1,0 +1,23 @@
+a{
+    color: #CE2D4F;
+}
+.success{
+   border-radius: 25% 75% 45% 55% / 60% 31% 69% 40% ; 
+   padding: 10px;
+   color: #212529;
+   border-color: #CE2D4F;
+}
+.btn-danger{
+    border-radius: 35% 65% 61% 39% / 24% 62% 38% 76%  ; 
+    padding: 10px;
+ }
+ .primary{
+    border-radius:34% 66% 26% 74% / 57% 20% 80% 43%   ; 
+    padding: 10px;
+    border-color: #212529;
+    color: #CE2D4F;
+ }
+
+  .fa-user-circle:hover {
+    color: #CE2D4F !important;
+}

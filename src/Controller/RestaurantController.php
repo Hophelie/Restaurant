@@ -59,8 +59,12 @@ class RestaurantController extends AbstractController
      */
     public function show(Restaurant $restaurant): Response
     {
+        
+        $produits = $restaurant->getProduitsListe();
+
         return $this->render('restaurant/show.html.twig', [
             'restaurant' => $restaurant,
+            'produits' => $produits
         ]);
     }
 
@@ -75,7 +79,7 @@ class RestaurantController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('restaurant_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('restaurant_show', ['id'=>$restaurant->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('restaurant/edit.html.twig', [
@@ -89,11 +93,13 @@ class RestaurantController extends AbstractController
      */
     public function delete(Request $request, Restaurant $restaurant, EntityManagerInterface $entityManager): Response
     {
+        $user = $this->getUser();
         if ($this->isCsrfTokenValid('delete'.$restaurant->getId(), $request->request->get('_token'))) {
             $entityManager->remove($restaurant);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('restaurant_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('acceuil');
+    
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Produit;
 use App\Entity\Restaurant;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -12,17 +13,17 @@ use Faker\Factory;
 class AppFixtures extends Fixture
 {
     
-      
-        private $encoder;
+    private $encoder;
     
-        public function __construct(UserPasswordEncoderInterface $encoder)
-        {
-            $this->encoder = $encoder;
-        }
-       public function load(ObjectManager $manager)
-       {
-       
+    public function __construct(UserPasswordEncoderInterface $encoder)
+    {
+        $this->encoder = $encoder;
+    }
+    public function load(ObjectManager $manager)
+    {
+        
         $faker = Factory::create('fr_FR');
+        $faker->addProvider(new \FakerRestaurant\Provider\fr_FR\Restaurant($faker));
          
             for($i = 1 ; $i <=30 ; $i++){
 
@@ -43,8 +44,20 @@ class AppFixtures extends Fixture
                 $restaurant->setNom($faker->company())
                 ->setAdresse($faker->address())
                 ->setTel($faker->phoneNumber());
-          
+                
                 $manager->persist($restaurant);
+
+                for($j = 1 ; $j <=10 ; $j++){
+
+                    $produit = new Produit();
+                    $produit->setDescription($faker->text($maxNbChars = 100) )
+                    ->setNom($faker->foodName())
+                    ->setPrix($faker->randomDigitNot(20))
+                    ->setRestaurant($restaurant);
+                    $manager->persist($produit);
+                
+                }
+
 
                 $manager->flush();
  
