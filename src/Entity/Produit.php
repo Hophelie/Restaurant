@@ -45,6 +45,10 @@ class Produit
      */
     private $commandeProducts;
 
+    public function __toString() {
+        return $this->nom;
+    }
+
     public function __construct()
     {
         $this->commandeProducts = new ArrayCollection();

@@ -3,23 +3,26 @@
 {% block title %}Hello !{% endblock %}
 {% block body %}
 
-    <div class="container-fluid fondVendeur">
+    <div class="container fondVendeur">
 	</div>
-	<div class="container-fluid carte">
+	<div class="container carte">
 		<div class="row">
 
 			{% for restaurant in restaurants %}
 				<div class="col-xl-4 col-lg-4 col-12 col-md-6 mb-5">
-					<img src="" alt="vendeur" class="card-img-top imgVendeur">
-					<div class="card cartesVendeurs">
 					
+					<div class="card">
 						<div class="card-body">
-							
-							<h5 class="card-title">{{restaurant.nom}}</h5>
-							<p class="card-text">{{restaurant.adresse}}</p>
-							<a class="dedcription-btn" href="{{ path('restaurant_show', {'id' : restaurant.id})}}">
-							<span class="name-descripeion"><i class="far fa-eye"></i></span>
-						  </a>
+							<h5 class="card-title text-center">{{restaurant.nom}}</h5>
+							<p class="card-text text-center">{{restaurant.adresse}}</p>
+							<div class="col-8">
+								<a class="dedcription-btn text-center" href="{{ path('restaurant_show', {'id' : restaurant.id})}}">
+									<span class="name-descripeion">Voir les menus</span>
+									<div class="btn-icon">
+										<i class="fas fa-utensils"></i>
+									</div>
+								</a>
+							</div>
 						</div> 
 					</div>
 				</div>

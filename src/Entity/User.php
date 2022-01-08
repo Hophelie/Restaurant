@@ -60,10 +60,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $restaurant;
 
+    /**
+     * @ORM\OneToMany(targetEntity=CommandeProducts::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $commandeProducts;
+
     public function __construct()
     {
         $this->commandes = new ArrayCollection();
         $this->restaurant = new ArrayCollection();
+        $this->commandeProducts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -229,6 +235,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeRestaurant(Restaurant $restaurant): self
     {
         $this->restaurant->removeElement($restaurant);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CommandeProducts[]
+     */
+    public function getCommandeProducts(): Collection
+    {
+        return $this->commandeProducts;
+    }
+
+    public function addCommandeProduct(CommandeProducts $commandeProduct): self
+    {
+        if (!$this->commandeProducts->contains($commandeProduct)) {
+            $this->commandeProducts[] = $commandeProduct;
+            $commandeProduct->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommandeProduct(CommandeProducts $commandeProduct): self
+    {
+        if ($this->commandeProducts->removeElement($commandeProduct)) {
+            // set the owning side to null (unless already changed)
+            if ($commandeProduct->getUser() === $this) {
+                $commandeProduct->setUser(null);
+            }
+        }
 
         return $this;
     }

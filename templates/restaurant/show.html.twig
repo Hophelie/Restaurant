@@ -31,21 +31,13 @@
         {% endfor %}
     <div class="row">
         {% for produit in produits %}
-           
             <div class="card mx-1 mt-3" style="width: 20rem;">
-                <img src="..." class="card-img-top" alt="...">
                 <div class="card-body">
-                    <h5 class="card-title"> {{ produit.nom }} - {{ produit.prix }}€</h5>
+                    <h5 class="card-title"> {{ produit.nom }} - <span style="color: #CE2D4F ">{{ produit.prix }}€</span></h5>
                     <p class="card-text">{{ produit.description }}</p> 
-                    {% for user in restaurant.users %}
-                        {% if app.user == user %}
-                            <a type="button" class="btn success" href="{{ path('produit_edit', {'id': produit.id}) }}"><i class="fas fa-pen"></i></a>
-                            {{ include('produit/_delete_form.html.twig') }}
-                        {% else %}
-                            <a href="#" type="button" class="btn success">Ajouter au panier</a>
-                            AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-                        {% endif %}
-                    {% endfor %}
+                        <a type="button" class="btn success" href="{{ path('produit_edit', {'id': produit.id}) }}"><i class="fas fa-pen"></i></a>
+                        {{ include('produit/_delete_form.html.twig') }}                
+                        <a href="{{ path('commande_products_new', {'id': produit.id}) }}" type="button" class="btn success">Ajouter au panier</a>
                 </div>
             </div>
         {% endfor %}

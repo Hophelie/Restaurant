@@ -36,15 +36,7 @@ class Commande
      */
     private $userCommande;
 
-    /**
-     * @ORM\OneToMany(targetEntity=CommandeProducts::class, mappedBy="commande", orphanRemoval=true)
-     */
-    private $commandeProducts;
 
-    public function __construct()
-    {
-        $this->commandeProducts = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {

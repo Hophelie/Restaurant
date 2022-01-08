@@ -24,7 +24,7 @@ class CommandeProducts
 
     /**
      * @ORM\ManyToOne(targetEntity=Commande::class, inversedBy="commandeProducts")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $commande;
 
@@ -33,6 +33,12 @@ class CommandeProducts
      * @ORM\JoinColumn(nullable=false)
      */
     private $produit;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="commandeProducts")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
 
     public function getId(): ?int
     {
@@ -71,6 +77,18 @@ class CommandeProducts
     public function setProduit(?Produit $produit): self
     {
         $this->produit = $produit;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }
