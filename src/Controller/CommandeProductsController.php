@@ -57,10 +57,18 @@ class CommandeProductsController extends AbstractController
      */
     public function show(CommandeProductsRepository $commandeProduct): Response
     {
-        $panier = $commandeProduct->findBy(['user'=>$this->getUser()]);
+        $prixTotal = 0;
+        $commande_products = $commandeProduct->findBy(['user'=>$this->getUser()]);
+        foreach ( $commande_products as $product){
+            $prix = $product->getProduit()->getPrix();
+            $quantite = $product->getQuantite();
+            $prixTotal += $prix*$quantite;
+            
+        };
 
         return $this->render('commande_products/show.html.twig', [
-            'commande_products' => $panier,
+            'commande_products' => $commande_products,
+            'prixTotal'=> $prixTotal
         ]);
     }
 
@@ -75,7 +83,7 @@ class CommandeProductsController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('commande_products_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('commande_products_show', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('commande_products/edit.html.twig', [

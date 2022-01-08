@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Commande;
+use App\Entity\CommandeProducts;
 use App\Form\CommandeType;
+use App\Repository\CommandeProductsRepository;
 use App\Repository\CommandeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,21 +23,38 @@ class CommandeController extends AbstractController
      */
     public function index(CommandeRepository $commandeRepository): Response
     {
+        $user = $this->getUser();
+        $commandes = $commandeRepository->findBy(['userCommande'=>$user]);
         return $this->render('commande/index.html.twig', [
-            'commandes' => $commandeRepository->findAll(),
+            'commandes' => $commandes,
         ]);
     }
 
     /**
      * @Route("/new", name="commande_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, CommandeProductsRepository $commandeProductsRep): Response
     {
+        $user = $this->getUser();
+        $articles = $commandeProductsRep->findBy(['user'=>$user]);
+
         $commande = new Commande();
         $form = $this->createForm(CommandeType::class, $commande);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $commandeNum = random_int(150000,250000000);
+
+            $commande->setNumero($commandeNum)
+            ->setUserCommande($user);
+            
+
+            foreach($articles as $article){
+                $restaurant = $article->getProduit()->getRestaurant();
+                $commande->addRestaurant($restaurant);
+                $entityManager->remove($article);
+            };
             $entityManager->persist($commande);
             $entityManager->flush();
 

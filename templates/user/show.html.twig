@@ -31,9 +31,8 @@
         <div class="row">
         {% for restaurant in user.restaurant %}
             <div class="card m-3" style="width: 25rem;">
-                <img src="..." class="card-img-top" alt="...">
                 <div class="card-body">
-                    <h5 class="card-title"> {{restaurant.nom}} </h5>
+                    <h5 class="card-title"> {{restaurant.nom}}</h5>
                     <p class="card-text">{{restaurant.adresse}}</p>  
                     <div class="row">
                         <div class="col-10">
@@ -44,7 +43,6 @@
                                 </div>
                             </a>
                         </div>
-							
                         <div class="col-2">
                             <a  type="button" class="btn primary" href="{{ path('restaurant_edit', {'id': restaurant.id}) }}"><i class="fas fa-pen"></i></a>
                         </div>
@@ -54,7 +52,11 @@
         {% endfor %}
         </div>
     {% endif %} 
-     
+    <h1>Mes Commandes</h1>
+       {% for commande in user.Commandes %}
+       
+       {{commande.numero}}
+       {% endfor %}
    
  
    

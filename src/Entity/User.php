@@ -64,6 +64,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\OneToMany(targetEntity=CommandeProducts::class, mappedBy="user", orphanRemoval=true)
      */
     private $commandeProducts;
+    
+    public function __toString() {
+        return $this->nom;
+    }
 
     public function __construct()
     {

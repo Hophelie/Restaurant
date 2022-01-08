@@ -24,17 +24,22 @@ class Commande
      */
     private $numero;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Restaurant::class, inversedBy="commandeList")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $restaurant;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="commandes")
      * @ORM\JoinColumn(nullable=false)
      */
     private $userCommande;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Restaurant::class, mappedBy="commandes")
+     */
+    private $restaurants;
+
+    public function __construct()
+    {
+        $this->restaurants = new ArrayCollection();
+    }
 
 
 
@@ -55,17 +60,6 @@ class Commande
         return $this;
     }
 
-    public function getRestaurant(): ?Restaurant
-    {
-        return $this->restaurant;
-    }
-
-    public function setRestaurant(?Restaurant $restaurant): self
-    {
-        $this->restaurant = $restaurant;
-
-        return $this;
-    }
 
     public function getUserCommande(): ?User
     {
@@ -104,6 +98,33 @@ class Commande
             if ($commandeProduct->getCommande() === $this) {
                 $commandeProduct->setCommande(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Restaurant[]
+     */
+    public function getRestaurants(): Collection
+    {
+        return $this->restaurants;
+    }
+
+    public function addRestaurant(Restaurant $restaurant): self
+    {
+        if (!$this->restaurants->contains($restaurant)) {
+            $this->restaurants[] = $restaurant;
+            $restaurant->addCommande($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRestaurant(Restaurant $restaurant): self
+    {
+        if ($this->restaurants->removeElement($restaurant)) {
+            $restaurant->removeCommande($this);
         }
 
         return $this;

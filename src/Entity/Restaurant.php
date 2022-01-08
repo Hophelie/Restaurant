@@ -39,15 +39,16 @@ class Restaurant
      */
     private $produitsListe;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Commande::class, mappedBy="restaurant", orphanRemoval=true)
-     */
-    private $commandeList;
 
     /**
      * @ORM\ManyToMany(targetEntity=User::class, mappedBy="restaurant")
      */
     private $users;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Commande::class, inversedBy="restaurants")
+     */
+    private $commandes;
 
     public function __toString() {
         return $this->nom;
@@ -58,6 +59,7 @@ class Restaurant
         $this->produitsListe = new ArrayCollection();
         $this->commandeList = new ArrayCollection();
         $this->users = new ArrayCollection();
+        $this->commandes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -131,35 +133,6 @@ class Restaurant
         return $this;
     }
 
-    /**
-     * @return Collection|Commande[]
-     */
-    public function getCommandeList(): Collection
-    {
-        return $this->commandeList;
-    }
-
-    public function addCommandeList(Commande $commandeList): self
-    {
-        if (!$this->commandeList->contains($commandeList)) {
-            $this->commandeList[] = $commandeList;
-            $commandeList->setRestaurant($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCommandeList(Commande $commandeList): self
-    {
-        if ($this->commandeList->removeElement($commandeList)) {
-            // set the owning side to null (unless already changed)
-            if ($commandeList->getRestaurant() === $this) {
-                $commandeList->setRestaurant(null);
-            }
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection|User[]
@@ -184,6 +157,30 @@ class Restaurant
         if ($this->users->removeElement($user)) {
             $user->removeRestaurant($this);
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Commande[]
+     */
+    public function getCommandes(): Collection
+    {
+        return $this->commandes;
+    }
+
+    public function addCommande(Commande $commande): self
+    {
+        if (!$this->commandes->contains($commande)) {
+            $this->commandes[] = $commande;
+        }
+
+        return $this;
+    }
+
+    public function removeCommande(Commande $commande): self
+    {
+        $this->commandes->removeElement($commande);
 
         return $this;
     }
