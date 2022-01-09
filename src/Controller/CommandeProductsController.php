@@ -62,13 +62,13 @@ class CommandeProductsController extends AbstractController
         foreach ( $commande_products as $product){
             $prix = $product->getProduit()->getPrix();
             $quantite = $product->getQuantite();
-            $prixTotal += $prix*$quantite;
+          
             
         };
 
         return $this->render('commande_products/show.html.twig', [
             'commande_products' => $commande_products,
-            'prixTotal'=> $prixTotal
+          
         ]);
     }
 

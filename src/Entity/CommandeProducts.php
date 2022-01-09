@@ -22,11 +22,6 @@ class CommandeProducts
      */
     private $quantite;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Commande::class, inversedBy="commandeProducts")
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $commande;
 
     /**
      * @ORM\ManyToOne(targetEntity=Produit::class, inversedBy="commandeProducts")
@@ -39,6 +34,12 @@ class CommandeProducts
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Commande::class, inversedBy="produitsCommandes")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $commande;
 
     public function getId(): ?int
     {

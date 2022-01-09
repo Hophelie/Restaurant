@@ -41,6 +41,7 @@ class CommandeController extends AbstractController
         $commande = new Commande();
         $form = $this->createForm(CommandeType::class, $commande);
         $form->handleRequest($request);
+        $prixTotal = 0;
 
         if ($form->isSubmitted() && $form->isValid()) {
 
@@ -51,9 +52,17 @@ class CommandeController extends AbstractController
             
 
             foreach($articles as $article){
+
                 $restaurant = $article->getProduit()->getRestaurant();
-                $commande->addRestaurant($restaurant);
-                $entityManager->remove($article);
+                $prix = $article->getProduit()->getPrix();
+                $quantite = $article->getQuantite();
+                $prixTotal += $prix*$quantite;
+
+                $commande->addRestaurant($restaurant)
+                ->setPrixTotal($prixTotal)
+              ;
+                $article->setCommande( $commande);
+                $entityManager->persist($article);
             };
             $entityManager->persist($commande);
             $entityManager->flush();

@@ -3,24 +3,31 @@
 {% block title %}Panier{% endblock %}
 
 {% block body %}
+
+{% set prixTotal = 0 %}
     <div class="container">
         <h1><span style="color: #CE2D4F "><i class="fas fa-shopping-bag"></i> </span>Panier</h1>
         <div class="row">
             {% for commande_product in commande_products %}
-
-                <div class="card mx-1 mt-3" style="width: 20rem;">
-                    <div class="card-body">
-                        <h5 class="card-title"> {{commande_product.produit.nom}} - <span style="color: #CE2D4F ">{{commande_product.produit.prix}}€</span></h5>
-                        <p class="card-text">Quantité : <b>{{commande_product.quantite}}</b></p>
-                        <p class="card-text">{{commande_product.produit.description }}</p>
-                        <a  type="button" class="btn primary" href="{{ path('commande_products_edit', {'id': commande_product.id}) }}"><i class="fas fa-pen"></i></a>
-                        {{ include('commande_products/_delete_form.html.twig') }}
+                {% if commande_product.commande == null %}
+                    <div class="card mx-1 mt-3" style="width: 20rem;">
+                        <div class="card-body">
+                            <h5 class="card-title"> {{commande_product.produit.nom}} - <span style="color: #CE2D4F ">{{commande_product.produit.prix}}€</span></h5>
+                            <p class="card-text">Quantité : <b>{{commande_product.quantite}}</b></p>
+                            <p class="card-text">{{commande_product.produit.description }}</p>
+                            <a  type="button" class="btn primary" href="{{ path('commande_products_edit', {'id': commande_product.id}) }}"><i class="fas fa-pen"></i></a>
+                            {{ include('commande_products/_delete_form.html.twig') }}
+                        </div>
                     </div>
-                </div>
-            {% endfor %}
+                     {% set prixTotal = prixTotal + commande_product.produit.prix * commande_product.quantite %}
+                
+                {% endif %}
+            {% endfor %} 
+           
         </div>  
         <h2 class="mt-3 text-center">
-        Prix total :<span style="color: #CE2D4F ">{{prixTotal}}€</span>
+            Prix total :<span style="color: #CE2D4F ">{{prixTotal}}€</span>
+   
         </h2>
         <div class="col-6">
             <a class="dedcription-btn text-center" data-bs-toggle="modal" data-bs-target="#payementModal">

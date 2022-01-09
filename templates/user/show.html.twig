@@ -3,62 +3,78 @@
 {% block title %}Mon profil{% endblock %}
 
 {% block body %}
- <div class="container">
-    <h1>Mon profil  <a type="button" class="btn primary" href="{{ path('user_edit', {'id': user.id}) }}"><i class="fas fa-pen"></i></a> </h1>
-
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Email</th>
-                <td>{{ user.email }}</td>
-            </tr>
-            <tr>
-                <th>Nom</th>
-                <td>{{ user.nom }}</td>
-            </tr>
-            <tr>
-                <th>Prenom</th>
-                <td>{{ user.prenom }}</td>
-            </tr>
-        </tbody>
-    </table>  
-    {{ include('user/_delete_form.html.twig') }}
-    {% if app.user.roles == ['ROLE_RESTAURATEUR','ROLE_USER']%}
-        <h1>Mes restaurants
-        {% if app.user.roles == ['ROLE_RESTAURATEUR','ROLE_USER']%}
-        <a  type="button" class="btn primary" href="{{ path('restaurant_new') }}"><i class="fas fa-plus"></i></a>
-        {% endif %}</h1>
+    <div class="container">
         <div class="row">
-        {% for restaurant in user.restaurant %}
-            <div class="card m-3" style="width: 25rem;">
-                <div class="card-body">
-                    <h5 class="card-title"> {{restaurant.nom}}</h5>
-                    <p class="card-text">{{restaurant.adresse}}</p>  
-                    <div class="row">
-                        <div class="col-10">
-                            <a class="dedcription-btn" href="{{ path('restaurant_show', {'id': restaurant.id}) }}">
-                                <span class="name-descripeion">Voir les menus</span>
-                                <div class="btn-icon">
-                                    <i class="fas fa-utensils"></i>
+            <div class="col-6">
+                <h1>Mon profil  <a type="button" class="btn primary" href="{{ path('user_edit', {'id': user.id}) }}"><i class="fas fa-pen"></i></a> </h1>
+                        <div class="card m-3" style="width: 25rem;">
+                                <div class="card-body">
+                                    <h5 class="card-title">
+                                    {% if user.nom == null or user.prenom == null %}
+                                        Renseignez vos informations
+                                    {% else %}
+                                        {{ user.nom }} {{ user.prenom }}
+                                    {% endif %}
+                                    
+                                    </h5>
+                                    <p class="card-text">{{ user.email}}</p>
+                                     {% if app.user.roles == ['ROLE_RESTAURATEUR','ROLE_USER']%}
+                                     <p class="card-text">Restaurateur</p>
+                                     {% endif %}
                                 </div>
-                            </a>
                         </div>
-                        <div class="col-2">
-                            <a  type="button" class="btn primary" href="{{ path('restaurant_edit', {'id': restaurant.id}) }}"><i class="fas fa-pen"></i></a>
-                        </div>
+                {{ include('user/_delete_form.html.twig') }}
+            </div>
+            <div class="col-6">
+                {% if app.user.roles == ['ROLE_RESTAURATEUR','ROLE_USER']%}
+                    <h1>Mes restaurants
+                        {% if app.user.roles == ['ROLE_RESTAURATEUR','ROLE_USER']%}
+                            <a  type="button" class="btn primary" href="{{ path('restaurant_new') }}"><i class="fas fa-plus"></i></a>
+                        {% endif %}
+                    </h1>
+                    <div class="row">
+                        {% for restaurant in user.restaurant %}
+                            <div class="card m-3" style="width: 25rem;">
+                                <div class="card-body">
+                                    <h5 class="card-title"> {{restaurant.nom}}</h5>
+                                    <p class="card-text">{{restaurant.adresse}}</p>  
+                                    <div class="row">
+                                        <div class="col-10">
+                                            <a class="dedcription-btn" href="{{ path('restaurant_show', {'id': restaurant.id}) }}">
+                                                <span class="name-descripeion">Voir les menus</span>
+                                                <div class="btn-icon">
+                                                    <i class="fas fa-utensils"></i>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="col-2">
+                                            <a  type="button" class="btn primary" href="{{ path('restaurant_edit', {'id': restaurant.id}) }}"><i class="fas fa-pen"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %} 
+            </div>
+        </div>
+        <h1>Mes Commandes</h1>
+        <div class="row">
+        {% for commande in commandes %}
+                <div class="card m-3" style="width: 25rem;">
+                    <div class="card-body">
+                        <h4 class="card-title text-center"> Commande n°{{commande.numero}} - <span style="color: #CE2D4F ">{{commande.prixTotal}}€</span> </h5>
+                        <p class="card-text"><span class="text-muted">Details:</span>
+                            {% for cmd in commande.getProduitsCommandes %}
+                                <ul class="list-group list-group-flush">        
+                                    <li class="list-group-item text-center fw-bold">{{ cmd.produit.restaurant}}</li>
+                                    <li class="list-group-item">{{cmd.quantite}} {{ cmd.produit.nom }} - <span class="text-muted">{{ cmd.produit.prix}}€/u</span> <b  style="color: #CE2D4F ">{{cmd.quantite *  cmd.produit.prix}}€</b></li>
+                                </ul>     
+                            {% endfor %}
+                        </p>  
                     </div>
                 </div>
-            </div>
         {% endfor %}
-        </div>
-    {% endif %} 
-    <h1>Mes Commandes</h1>
-       {% for commande in user.Commandes %}
-       
-       {{commande.numero}}
-       {% endfor %}
-   
- 
-   
-</div>
+        </div> 
+    </div>
 {% endblock %}

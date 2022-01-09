@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Repository\CommandeRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -51,12 +52,14 @@ class UserController extends AbstractController
     /**
      * @Route("/{id}", name="user_show", methods={"GET"})
      */
-    public function show(User $user): Response
+    public function show(User $user, CommandeRepository $commandeRep): Response
     {
-       
+        $commandes = $commandeRep->findBy(['userCommande'=>$user]);
+
+        
         return $this->render('user/show.html.twig', [
-            'user' => $user
-            
+            'user' => $user,
+            'commandes'=>$commandes,
         ]);
     }
 

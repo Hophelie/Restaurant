@@ -4,25 +4,13 @@
 
 {% block body %}
 <div class="container">
-    <h1>Restaurant</h1>
-
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Nom</th>
-                <td>{{ restaurant.nom }}</td>
-            </tr>
-            <tr>
-                <th>Adresse</th>
-                <td>{{ restaurant.adresse }}</td>
-            </tr>
-            <tr>
-                <th>Tel</th>
-                <td>{{ restaurant.tel }}</td>
-            </tr>
-        </tbody>
-    </table>
-    
+    <div class="card mx-1 mt-3 col-12 my-5" >
+                <div class="card-body">
+                    <h3 class="card-title text-center"> {{ restaurant.nom }}</h5>
+                    <p class="card-text text-center">{{ restaurant.adresse }}</p> 
+                     <p class="card-text text-center">{{ restaurant.tel }}</p> 
+                </div>
+            </div>    
     <h1>Produits</h1>
         {% for user in restaurant.users %}
             {% if app.user == user %}
@@ -37,7 +25,13 @@
                     <p class="card-text">{{ produit.description }}</p> 
                         <a type="button" class="btn success" href="{{ path('produit_edit', {'id': produit.id}) }}"><i class="fas fa-pen"></i></a>
                         {{ include('produit/_delete_form.html.twig') }}                
-                        <a href="{{ path('commande_products_new', {'id': produit.id}) }}" type="button" class="btn success">Ajouter au panier</a>
+                        <a class="dedcription-btn text-center" href="{{ path('commande_products_new', {'id': produit.id}) }}">
+                            <span class="name-descripeion">Ajouter au panier</span>
+                            <div class="btn-icon">
+                            <i class="fas fa-shopping-bag"></i>
+                            </div>
+                        </a>
+            
                 </div>
             </div>
         {% endfor %}

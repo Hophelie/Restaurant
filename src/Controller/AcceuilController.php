@@ -13,9 +13,10 @@ class AcceuilController extends AbstractController
      * @Route("/", name="acceuil")
      */
     public function index(RestaurantRepository $restaurantRepository): Response
-    {
+    {   
         return $this->render('acceuil/index.html.twig', [
             'restaurants' => $restaurantRepository->findAll(),
+         
         ]);
     }
 }

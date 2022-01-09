@@ -1,11 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New CommandeProducts{% endblock %}
+{% block title %}Choisir la quantité{% endblock %}
 
 {% block body %}
-    <h1>Create new CommandeProducts</h1>
+    <h1>Choisissez la quantité</h1>
+        <div class="card-body">
+            <h5 class="card-title">sss</span></h5>
+            <p class="card-text">{{ include('commande_products/_form.html.twig') }}</p>
+        </div>
+    
 
-    {{ include('commande_products/_form.html.twig') }}
-
-    <a href="{{ path('commande_products_index') }}">back to list</a>
 {% endblock %}

@@ -25,7 +25,7 @@ class AppFixtures extends Fixture
         $faker = Factory::create('fr_FR');
         $faker->addProvider(new \FakerRestaurant\Provider\fr_FR\Restaurant($faker));
          
-            for($i = 1 ; $i <=30 ; $i++){
+            for($i = 1 ; $i <=20 ; $i++){
 
                 $value = 'user'.$i;
 

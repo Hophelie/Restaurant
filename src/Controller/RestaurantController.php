@@ -43,8 +43,7 @@ class RestaurantController extends AbstractController
             $entityManager->flush();
 
             return $this->redirectToRoute('user_show',[
-                 'id' => $user->getId()
-            
+                 'id' => $user->getId()      
             ]);
         }
 
@@ -64,7 +63,8 @@ class RestaurantController extends AbstractController
 
         return $this->render('restaurant/show.html.twig', [
             'restaurant' => $restaurant,
-            'produits' => $produits
+            'produits' => $produits,
+         
         ]);
     }
 
