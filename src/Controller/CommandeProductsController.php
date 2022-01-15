@@ -31,24 +31,25 @@ class CommandeProductsController extends AbstractController
     /**
      * @Route("/new/{id}", name="commande_products_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, EntityManagerInterface $entityManager, Produit $produit): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, Produit $produit, CommandeProductsRepository $commandeProductsRep): Response
     {
-        $commandeProduct = new CommandeProducts();
-        $form = $this->createForm(CommandeProductsType::class, $commandeProduct);
-        $form->handleRequest($request);
+        
+        $restaurant = $produit->getRestaurant();
+        $produits = $restaurant->getProduitsListe();
+       
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $commandeProduct->setProduit($produit)
-            ->setUser($this->getUser());
+   
+        $commandeProduct = new CommandeProducts();
+
+        $commandeProduct->setProduit($produit)
+            ->setUser($this->getUser())
+            ->setQuantite(1);
             $entityManager->persist($commandeProduct);
             $entityManager->flush();
-
-            return $this->redirectToRoute('commande_products_show', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('commande_products/new.html.twig', [
-            'commande_product' => $commandeProduct,
-            'form' => $form,
+  
+        return $this->render('restaurant/show.html.twig', [
+            'restaurant' => $restaurant,
+            'produits' => $produits,
         ]);
     }
 
@@ -57,14 +58,7 @@ class CommandeProductsController extends AbstractController
      */
     public function show(CommandeProductsRepository $commandeProduct): Response
     {
-        $prixTotal = 0;
         $commande_products = $commandeProduct->findBy(['user'=>$this->getUser()]);
-        foreach ( $commande_products as $product){
-            $prix = $product->getProduit()->getPrix();
-            $quantite = $product->getQuantite();
-          
-            
-        };
 
         return $this->render('commande_products/show.html.twig', [
             'commande_products' => $commande_products,

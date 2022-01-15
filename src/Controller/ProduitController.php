@@ -75,8 +75,8 @@ class ProduitController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
-
-            return $this->redirectToRoute('produit_index', [], Response::HTTP_SEE_OTHER);
+            $restaurant = $produit->getRestaurant();
+            return $this->redirectToRoute('restaurant_show', ['id'=>$restaurant->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('produit/edit.html.twig', [
@@ -90,11 +90,13 @@ class ProduitController extends AbstractController
      */
     public function delete(Request $request, Produit $produit, EntityManagerInterface $entityManager): Response
     {
+
+        
         if ($this->isCsrfTokenValid('delete'.$produit->getId(), $request->request->get('_token'))) {
             $entityManager->remove($produit);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('produit_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('restaurant_show', ['id'=>$produit->getRestaurant()->getId()], Response::HTTP_SEE_OTHER);
     }
 }

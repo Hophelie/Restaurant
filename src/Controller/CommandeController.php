@@ -31,17 +31,20 @@ class CommandeController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="commande_new", methods={"GET", "POST"})
+     * @Route("/new{prixTotal}", name="commande_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, EntityManagerInterface $entityManager, CommandeProductsRepository $commandeProductsRep): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, CommandeProductsRepository $commandeProductsRep, $prixTotal): Response
     {
+        
         $user = $this->getUser();
-        $articles = $commandeProductsRep->findBy(['user'=>$user]);
+        $articles = $commandeProductsRep->findBy(['user'=>$user, 'commande'=>null]);
+   
+
 
         $commande = new Commande();
         $form = $this->createForm(CommandeType::class, $commande);
         $form->handleRequest($request);
-        $prixTotal = 0;
+      
 
         if ($form->isSubmitted() && $form->isValid()) {
 
@@ -49,22 +52,18 @@ class CommandeController extends AbstractController
 
             $commande->setNumero($commandeNum)
             ->setUserCommande($user);
-            
+            $entityManager->persist($commande);
 
             foreach($articles as $article){
-
+                
                 $restaurant = $article->getProduit()->getRestaurant();
-                $prix = $article->getProduit()->getPrix();
-                $quantite = $article->getQuantite();
-                $prixTotal += $prix*$quantite;
-
                 $commande->addRestaurant($restaurant)
-                ->setPrixTotal($prixTotal)
-              ;
-                $article->setCommande( $commande);
+                ->setPrixTotal($prixTotal);
+                $article->setCommande($commande);
                 $entityManager->persist($article);
+                
             };
-            $entityManager->persist($commande);
+            
             $entityManager->flush();
 
             return $this->redirectToRoute('commande_index', [], Response::HTTP_SEE_OTHER);
@@ -73,6 +72,8 @@ class CommandeController extends AbstractController
         return $this->renderForm('commande/new.html.twig', [
             'commande' => $commande,
             'form' => $form,
+            'prixTotal'=>$prixTotal,
+            'articles'=>$articles
         ]);
     }
 

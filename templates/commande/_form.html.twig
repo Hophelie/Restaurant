@@ -1,4 +1,9 @@
 {{ form_start(form) }}
     {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    <button class="dedcription-btn text-center">
+        <span class="name-descripeion">Valider la commande</span>
+        <div class="btn-icon">
+            <i class="fas fa-check"></i>
+        </div>      
+    </button>
 {{ form_end(form) }}

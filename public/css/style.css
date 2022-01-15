@@ -28,6 +28,10 @@ a{
 .form-control{
    border-color: #CE2D4F!important;
 }
+.dropdown-item:focus, .dropdown-item:hover {
+  color: #ffffff;
+  background-color: #CE2D4F;
+}
 
 .dedcription-btn {
    width: 100%;
@@ -87,3 +91,4 @@ a{
  .dedcription-btn:hover {
    color: #212529!important;
  }
+

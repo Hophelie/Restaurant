@@ -6,8 +6,5 @@
     <h1>Edit CommandeProducts</h1>
 
     {{ include('commande_products/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('commande_products_index') }}">back to list</a>
-
     {{ include('commande_products/_delete_form.html.twig') }}
 {% endblock %}

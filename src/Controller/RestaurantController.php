@@ -16,15 +16,6 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class RestaurantController extends AbstractController
 {
-    /**
-     * @Route("/", name="restaurant_index", methods={"GET"})
-     */
-    public function index(RestaurantRepository $restaurantRepository): Response
-    {
-        return $this->render('restaurant/index.html.twig', [
-            'restaurants' => $restaurantRepository->findAll(),
-        ]);
-    }
 
     /**
      * @Route("/new", name="restaurant_new", methods={"GET", "POST"})
@@ -60,6 +51,7 @@ class RestaurantController extends AbstractController
     {
         
         $produits = $restaurant->getProduitsListe();
+      
 
         return $this->render('restaurant/show.html.twig', [
             'restaurant' => $restaurant,

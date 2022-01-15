@@ -93,11 +93,15 @@ class UserController extends AbstractController
      */
     public function delete(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($user);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('user_index', [], Response::HTTP_SEE_OTHER);
+        $user = $this->getUser();
+        
+        $this->container->get('security.token_storage')->setToken(null);
+        $entityManager->remove($user);
+        $entityManager->flush();
+        
+        // Ceci ne fonctionne pas avec la création d'une nouvelle session !
+        $this->addFlash('success', 'Votre compte utilisateur a bien été supprimé !'); 
+        
+        return $this->redirectToRoute('acceuil');
     }
 }
